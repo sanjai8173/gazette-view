@@ -1,0 +1,50 @@
+import React from 'react';
+import './styles.less';
+interface ContentItem {
+    level: string;
+    title?: string;
+    content?: string;
+    chapter?: string;
+    sec?: string;
+    subSec?: string;
+    clause?: string;
+    subClause?: string;
+    refNo?: string;
+    [key: string]: any;
+}
+interface PreviewComponentProps {
+    content: ContentItem;
+    [key: string]: any;
+}
+export declare const parseContent: (text?: string) => React.ReactNode;
+export declare const GazetteCategoryPreview: React.FC<PreviewComponentProps>;
+export declare const GazettePartPreview: React.FC<PreviewComponentProps>;
+export declare const GazetteSectionPreview: React.FC<PreviewComponentProps>;
+export declare const HeaderPreview: React.FC<PreviewComponentProps>;
+export declare const SubHeaderPreview: React.FC<PreviewComponentProps>;
+export declare const ActTitlePreview: React.FC<PreviewComponentProps>;
+export declare const ActNumberPreview: React.FC<PreviewComponentProps>;
+export declare const BulletPointsPreview: React.FC<PreviewComponentProps>;
+export declare const ActYearPreview: React.FC<PreviewComponentProps>;
+export declare const PartPreview: React.FC<PreviewComponentProps>;
+export declare const DateofEnactmentPreview: React.FC<PreviewComponentProps>;
+export declare const PreamblePreview: React.FC<PreviewComponentProps>;
+export declare const OmittedPreview: React.FC<PreviewComponentProps>;
+export declare const EnactingClausePreview: React.FC<PreviewComponentProps>;
+export declare const ChapterPreview: React.FC<PreviewComponentProps>;
+export declare const SectionPreview: React.FC<PreviewComponentProps>;
+export declare const SubSectionPreview: React.FC<PreviewComponentProps>;
+export declare const ClausePreview: React.FC<PreviewComponentProps>;
+export declare const ExplanationPreview: React.FC<PreviewComponentProps>;
+export declare const IllustrationPreview: React.FC<PreviewComponentProps>;
+export declare const ExplanationsPreview: React.FC<PreviewComponentProps>;
+export declare const ProvisoPreview: React.FC<PreviewComponentProps>;
+export declare const IllustrationsPreview: React.FC<PreviewComponentProps>;
+export declare const AmendmentPreview: React.FC<PreviewComponentProps>;
+export declare const StatePreview: React.FC<PreviewComponentProps>;
+export declare const StateParagraphPreview: React.FC<PreviewComponentProps>;
+export declare const SubClausePreview: React.FC<PreviewComponentProps>;
+export declare const ParagraphPreview: React.FC<PreviewComponentProps>;
+export declare const ExceptionsPreview: React.FC<PreviewComponentProps>;
+export declare const ExceptionPreview: React.FC<PreviewComponentProps>;
+export {};
