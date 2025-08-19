@@ -813,6 +813,7 @@ const LawPrintModal = (props) => {
         <Button
           disabled={loading || chapters?.length == 0}
           type="primary"
+          style={{backgroundColor:primaryColor}}
           onClick={() => {
             printLawContent();
           }}
