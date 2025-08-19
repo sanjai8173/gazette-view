@@ -71,7 +71,7 @@ const { Option } = Select;
 
 const GazettePreview = (props) => {
   const {
-    initialState,
+    primaryColor,
     onMenuScroll,
     lawMeta,
     menuItems,
@@ -126,7 +126,7 @@ const GazettePreview = (props) => {
             width={drawerWidth}
           >
             <SideMenu
-              initialState={initialState}
+              primaryColor={primaryColor}
               lawMeta={lawMeta}
               getMenuItems={onMenuScroll}
               getSelectedMenuIds={getSelectedMenuIds}
@@ -143,7 +143,7 @@ const GazettePreview = (props) => {
         <>
           {!collapsed && (
             <SideMenu
-              initialState={initialState}
+              primaryColor={primaryColor}
               lawMeta={lawMeta}
               getMenuItems={onMenuScroll}
               setSelectedMenuIds={setSelectedMenuIds}
@@ -158,7 +158,7 @@ const GazettePreview = (props) => {
         </>
       )}
       <ActContentRender
-        initialState={initialState}
+        primaryColor={primaryColor}
         contentList={contentList}
         totalContentItems={totalContentItems}
         getActContentList={onContentScroll}
@@ -235,7 +235,7 @@ export const ContentPreview = ({ contentList = [], backgroundImage }) => {
 
 const SideMenu = (props) => {
   const {
-    initialState,
+    primaryColor,
     lawMeta,
     getMenuItems,
     setCollapsed,
@@ -246,7 +246,6 @@ const SideMenu = (props) => {
     totalMenuItems,
     width,
   } = props;
-  const { currentUser, vendor, vid } = initialState;
   const navigate = useNavigate();
 
   const onResetSelectedMenuIds = () => {
@@ -304,7 +303,7 @@ const SideMenu = (props) => {
             <Space style={{ display: "flex", flexWrap: "wrap" }}>
               <Text
                 strong
-                style={{ fontWeight: "bolder", color: vendor?.primaryColor }}
+                style={{ fontWeight: "bolder", color: primaryColor }}
               >
                 Status :
               </Text>
@@ -341,10 +340,10 @@ const SideMenu = (props) => {
           <Divider
             style={{
               height: "3px",
-              color: vendor?.primaryColor,
+              color: primaryColor,
               margin: "5px",
               marginInline: "0px",
-              backgroundColor: vendor?.primaryColor,
+              backgroundColor: primaryColor,
             }}
           />
           <div style={{ padding: "5px", paddingInline: "10px" }}>
@@ -454,7 +453,7 @@ const MenuItemRender = (props) => {
 };
 
 export const TimelineComponent = (props) => {
-  const { versionList, vendor, selectedVersion, setSelectedVersion } = props;
+  const { versionList, primaryColor, selectedVersion, setSelectedVersion } = props;
   const isSingle = versionList.length === 1;
 
   return (
@@ -467,7 +466,7 @@ export const TimelineComponent = (props) => {
             left: 0,
             right: 0,
             height: 4,
-            backgroundColor: vendor?.primaryColor || "#ccc",
+            backgroundColor: primaryColor || "#ccc",
             zIndex: 0,
           }}
         />
@@ -577,7 +576,7 @@ export const TimelineComponent = (props) => {
 
 export const ActContentRender = (props) => {
   const {
-    initialState,
+    primaryColor,
     contentList,
     totalContentItems,
     getActContentList,
@@ -589,7 +588,6 @@ export const ActContentRender = (props) => {
     setSelectedVersion,
   } = props;
 
-  const { vendor, vid } = initialState;
   const [showTimeline, setShowTimeline] = useState(false);
   const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
   const isMobile = useIsMobile();
@@ -625,13 +623,13 @@ export const ActContentRender = (props) => {
 
         <Space size={"middle"}>
           <FileOutlined
-            twoToneColor={vendor?.primaryColor}
+            twoToneColor={primaryColor}
             style={{ cursor: "pointer" }}
             onClick={() => {
               setPrintModalOpen(true);
             }}
           />
-          <QuestionCircleFilled twoToneColor={vendor?.primaryColor} />
+          <QuestionCircleFilled twoToneColor={primaryColor} />
         </Space>
       </div>
 
@@ -639,7 +637,7 @@ export const ActContentRender = (props) => {
         <TimelineComponent
           versionList={versionList}
           isVersionLoading={isVersionLoading}
-          vendor={vendor}
+          primaryColor={primaryColor}
           selectedVersion={selectedVersion}
           setSelectedVersion={setSelectedVersion}
         />
@@ -657,7 +655,7 @@ export const ActContentRender = (props) => {
         <div style={{ padding: "16px", height: "100%", overflowY: "auto" }}>
           <MobileTimelineComponent
             versionList={versionList}
-            vendor={vendor}
+            primaryColor={primaryColor}
             selectedVersion={selectedVersion}
             setSelectedVersion={setSelectedVersion}
           />
@@ -696,15 +694,14 @@ export const ActContentRender = (props) => {
         width={drawerWidth}
         centered
       >
-        <LawPrintModal lawMeta={lawMeta} initialState={initialState} backgroundImage={backgroundImage} />
+        <LawPrintModal lawMeta={lawMeta} primaryColor={primaryColor} backgroundImage={backgroundImage} />
       </Modal>
     </div>
   );
 };
 
 const LawPrintModal = (props) => {
-  const { lawMeta, initialState, backgroundImage } = props;
-  const { currentUser, vendor, vid } = initialState;
+  const { lawMeta, primaryColor, backgroundImage } = props;
   const [loading, setLoading] = useState(true);
   const [selectedChapterIds, setSelectedChapterIds] = useState([]);
   const [chapters, setChapters] = useState([]);
@@ -748,7 +745,7 @@ const LawPrintModal = (props) => {
         <Space style={{ display: "flex", flexWrap: "wrap" }}>
           <Text
             strong
-            style={{ fontWeight: "bolder", color: vendor?.primaryColor }}
+            style={{ fontWeight: "bolder", color: primaryColor }}
           >
             Status :
           </Text>
@@ -784,10 +781,10 @@ const LawPrintModal = (props) => {
         <Divider
           style={{
             height: "3px",
-            color: vendor?.primaryColor,
+            color: primaryColor,
             margin: "5px",
             marginInline: "0px",
-            backgroundColor: vendor?.primaryColor,
+            backgroundColor: primaryColor,
           }}
         />
       </div>
@@ -917,7 +914,7 @@ export const ChapterItemsRenderComponent = (props) => {
 };
 
 export const MobileTimelineComponent = (props) => {
-  const { versionList, vendor, selectedVersion, setSelectedVersion } = props;
+  const { versionList, primaryColor, selectedVersion, setSelectedVersion } = props;
 
   return (
     <div style={{ padding: 16 }}>
