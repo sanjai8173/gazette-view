@@ -6,7 +6,7 @@ import {
   FilePdfOutlined,
   LoadingOutlined,
   QuestionCircleFilled,
-} from "@ant-design/icons";
+} from '@ant-design/icons';
 import {
   Button,
   Checkbox,
@@ -15,15 +15,14 @@ import {
   Empty,
   List,
   Modal,
-  notification,
   Select,
   Space,
   Timeline,
   Typography,
-} from "antd";
-import { useEffect, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import ReactToPrint from "react-to-print";
+} from 'antd';
+import { useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import ReactToPrint from 'react-to-print';
 import {
   ActNumberPreview,
   ActTitlePreview,
@@ -54,7 +53,7 @@ import {
   SubClausePreview,
   SubHeaderPreview,
   SubSectionPreview,
-} from "./preview";
+} from './preview';
 import {
   camelize,
   DateTimeToolTip,
@@ -63,8 +62,8 @@ import {
   momentToUnix,
   unixToReadableFormat,
   useIsMobile,
-} from "./utils";
-import InfiniteScrollWrapper from "./wrapper";
+} from './utils';
+import InfiniteScrollWrapper from './wrapper';
 
 const { Title, Text } = Typography;
 const { Option } = Select;
@@ -88,27 +87,33 @@ const GazettePreview = (props) => {
     onContentScroll,
     getSelectedMenuIds,
     setSelectedVersion,
+    chapters,
+    loading,
+    printableLawContent,
+    selectedChapterIds,
+    setSelectedChapterIds,
+    onPrint,
   } = props;
   const isMobile = useIsMobile();
   const [collapsed, setCollapsed] = useState(false);
 
   return (
-    <div style={{ display: "flex", justifyContent: "center" }}>
+    <div style={{ display: 'flex', justifyContent: 'center' }}>
       {(isMobile || (!isMobile && collapsed)) && (
         <div
           onClick={() => setCollapsed(false)}
           style={{
-            position: "absolute",
-            top: "40%",
-            left: isMobile ? 0 : "200px",
-            background: "#f5f5f5",
-            border: "1px solid #ccc",
-            borderLeft: "none",
-            padding: "6px 12px",
-            fontWeight: "bold",
-            cursor: "pointer",
-            transform: "rotate(-90deg)",
-            transformOrigin: "left top",
+            position: 'absolute',
+            top: '40%',
+            left: isMobile ? 0 : '200px',
+            background: '#f5f5f5',
+            border: '1px solid #ccc',
+            borderLeft: 'none',
+            padding: '6px 12px',
+            fontWeight: 'bold',
+            cursor: 'pointer',
+            transform: 'rotate(-90deg)',
+            transformOrigin: 'left top',
             zIndex: 10,
           }}
         >
@@ -122,7 +127,7 @@ const GazettePreview = (props) => {
             onClose={() => setCollapsed(true)}
             open={!collapsed}
             closable={false}
-            styles={{ body: { padding: "0px" } }}
+            styles={{ body: { padding: '0px' } }}
             width={drawerWidth}
           >
             <SideMenu
@@ -168,6 +173,12 @@ const GazettePreview = (props) => {
         versionList={versionList}
         selectedVersion={selectedVersion}
         setSelectedVersion={setSelectedVersion}
+        chapters={chapters}
+        loading={loading}
+        printableLawContent={printableLawContent}
+        selectedChapterIds={selectedChapterIds}
+        setSelectedChapterIds={setSelectedChapterIds}
+        onPrint={onPrint}
       />
     </div>
   );
@@ -213,8 +224,8 @@ export const ContentPreview = ({ contentList = [], backgroundImage }) => {
       className="act-preview"
       style={{
         background: `url(${backgroundImage})`,
-        backgroundSize: "cover",
-        backgroundPosition: "center",
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
       }}
     >
       {contentList.map((content, index) => {
@@ -225,9 +236,7 @@ export const ContentPreview = ({ contentList = [], backgroundImage }) => {
           return null;
         }
 
-        return (
-          <Component key={`${content.level}-${index}`} content={content} />
-        );
+        return <Component key={`${content.level}-${index}`} content={content} />;
       })}
     </div>
   );
@@ -254,9 +263,7 @@ const SideMenu = (props) => {
     getSelectedMenuIds([]);
   };
   const onGetSelectedMenuIds = () => {
-    navigate(
-      `${window.location.pathname}?secIds=${selectedMenuIds?.join(",")}`
-    );
+    navigate(`${window.location.pathname}?secIds=${selectedMenuIds?.join(',')}`);
     getSelectedMenuIds([]);
   };
 
@@ -265,73 +272,70 @@ const SideMenu = (props) => {
       <div
         style={{
           width,
-          background: "#fff",
-          borderRight: "1px solid #ccc",
-          display: "flex",
-          flexDirection: "column",
-          overflow: "hidden",
-          transition: "width 0.2s",
+          background: '#fff',
+          borderRight: '1px solid #ccc',
+          display: 'flex',
+          flexDirection: 'column',
+          overflow: 'hidden',
+          transition: 'width 0.2s',
         }}
       >
-        <div style={{ position: "sticky", top: "0px" }}>
+        <div style={{ position: 'sticky', top: '0px' }}>
           <div
             style={{
-              padding: "5px",
-              paddingInline: "10px",
-              width: "100%",
-              display: "flex",
-              justifyContent: "space-between",
+              padding: '5px',
+              paddingInline: '10px',
+              width: '100%',
+              display: 'flex',
+              justifyContent: 'space-between',
             }}
           >
             <Space>
-              <Text strong style={{ fontWeight: "bolder", fontSize: "larger" }}>
+              <Text strong style={{ fontWeight: 'bolder', fontSize: 'larger' }}>
                 {lawMeta?.law?.title}
               </Text>
             </Space>
             <CloseOutlined
               style={{
-                fontSize: "10px",
-                fontWeight: "bolder",
-                right: "10px",
+                fontSize: '10px',
+                fontWeight: 'bolder',
+                right: '10px',
               }}
               onClick={() => {
                 setCollapsed(true);
               }}
             />
           </div>
-          <div style={{ padding: "5px", paddingInline: "10px" }}>
-            <Space style={{ display: "flex", flexWrap: "wrap" }}>
-              <Text
-                strong
-                style={{ fontWeight: "bolder", color: primaryColor }}
-              >
+          <div style={{ padding: '5px', paddingInline: '10px' }}>
+            <Space style={{ display: 'flex', flexWrap: 'wrap' }}>
+              <Text strong style={{ fontWeight: 'bolder', color: primaryColor }}>
                 Status :
               </Text>
               <Text>
                 {lawMeta?.lawVersion?.isLatestVersion ? (
                   <>
-                    Current version as at{" "}
+                    Current version as at{' '}
                     {unixToReadableFormat(
                       momentToUnix(lawMeta?.lawVersion?.amendmentDate),
                       false,
-                      G_DATE_READABLE_FORMAT
-                    )}{" "}
+                      G_DATE_READABLE_FORMAT,
+                    )}{' '}
                   </>
                 ) : (
                   <>
-                    Not current version (effective from{" "}
+                    Not current version (effective from{' '}
                     {unixToReadableFormat(
                       momentToUnix(lawMeta?.lawVersion?.amendmentDate),
                       false,
-                      G_DATE_READABLE_FORMAT
-                    )}{" "}
-                    to{" "}
+                      G_DATE_READABLE_FORMAT,
+                    )}{' '}
+                    to{' '}
                     {unixToReadableFormat(
                       momentToUnix(lawMeta?.lawVersion?.lastEffectiveDate),
                       false,
-                      G_DATE_READABLE_FORMAT
+                      G_DATE_READABLE_FORMAT,
                     )}
-                    ){" "}
+                    ){' '}
                   </>
                 )}
               </Text>
@@ -339,15 +343,15 @@ const SideMenu = (props) => {
           </div>
           <Divider
             style={{
-              height: "3px",
+              height: '3px',
               color: primaryColor,
-              margin: "5px",
-              marginInline: "0px",
+              margin: '5px',
+              marginInline: '0px',
               backgroundColor: primaryColor,
             }}
           />
-          <div style={{ padding: "5px", paddingInline: "10px" }}>
-            <Text style={{ fontWeight: "bolder" }}>Table of Contents</Text>
+          <div style={{ padding: '5px', paddingInline: '10px' }}>
+            <Text style={{ fontWeight: 'bolder' }}>Table of Contents</Text>
           </div>
         </div>
         <InfiniteScrollWrapper
@@ -370,12 +374,12 @@ const SideMenu = (props) => {
         </InfiniteScrollWrapper>
         <div
           style={{
-            backgroundColor: "#eee",
-            padding: "10px",
-            display: "flex",
-            columnGap: "10px",
-            position: "sticky",
-            bottom: "0px",
+            backgroundColor: '#eee',
+            padding: '10px',
+            display: 'flex',
+            columnGap: '10px',
+            position: 'sticky',
+            bottom: '0px',
           }}
         >
           <Button
@@ -387,6 +391,7 @@ const SideMenu = (props) => {
           </Button>
           <Button
             type="primary"
+            style={{ backgroundColor: primaryColor }}
             onClick={() => {
               onGetSelectedMenuIds();
             }}
@@ -406,27 +411,24 @@ const MenuItemRender = (props) => {
       onClick={() => {
         if (selectedMenuIds?.includes(menu?._id)) {
           setSelectedMenuIds((prevSelectedIds) =>
-            prevSelectedIds?.filter((selectedId) => selectedId != menu?._id)
+            prevSelectedIds?.filter((selectedId) => selectedId != menu?._id),
           );
         } else {
-          setSelectedMenuIds((prevSelectedIds) => [
-            ...prevSelectedIds,
-            menu?._id,
-          ]);
+          setSelectedMenuIds((prevSelectedIds) => [...prevSelectedIds, menu?._id]);
         }
       }}
       key={menu._id}
       style={{
         marginBottom: 8,
-        paddingLeft: `${menu.level === "section" ? 24 : 0}px`,
-        cursor: "pointer",
-        display: "flex",
-        alignItems: "center",
-        padding: "8px 12px",
+        paddingLeft: `${menu.level === 'section' ? 24 : 0}px`,
+        cursor: 'pointer',
+        display: 'flex',
+        alignItems: 'center',
+        padding: '8px 12px',
         borderRadius: 4,
       }}
     >
-      {menu.level === "section" && (
+      {menu.level === 'section' && (
         <Checkbox
           onChange={(e) => {
             e.stopPropagation();
@@ -438,13 +440,13 @@ const MenuItemRender = (props) => {
       <Text
         ellipsis
         style={{
-          fontWeight: menu.level === "chapter" ? "bold" : "normal",
-          color: menu.level === "chapter" ? "#333" : "#666",
+          fontWeight: menu.level === 'chapter' ? 'bold' : 'normal',
+          color: menu.level === 'chapter' ? '#333' : '#666',
         }}
       >
-        {menu.level === "chapter"
-          ? `${menu.chapter}. ${menu.title || "Chapter" + " " + menu.chapter}`
-          : menu.level === "actDetails"
+        {menu.level === 'chapter'
+          ? `${menu.chapter}. ${menu.title || 'Chapter' + ' ' + menu.chapter}`
+          : menu.level === 'actDetails'
           ? `${menu.title}`
           : `${menu.sec}. ${menu.title}`}
       </Text>
@@ -457,16 +459,16 @@ export const TimelineComponent = (props) => {
   const isSingle = versionList.length === 1;
 
   return (
-    <div style={{ padding: 24, position: "relative" }}>
+    <div style={{ padding: 24, position: 'relative' }}>
       {!isSingle && (
         <div
           style={{
-            position: "absolute",
+            position: 'absolute',
             top: 67,
             left: 0,
             right: 0,
             height: 4,
-            backgroundColor: primaryColor || "#ccc",
+            backgroundColor: primaryColor || '#ccc',
             zIndex: 0,
           }}
         />
@@ -474,13 +476,13 @@ export const TimelineComponent = (props) => {
 
       <div
         style={{
-          display: "flex",
-          flexWrap: "nowrap",
-          justifyContent: isSingle ? "center" : "space-between",
+          display: 'flex',
+          flexWrap: 'nowrap',
+          justifyContent: isSingle ? 'center' : 'space-between',
           gap: 16,
-          position: "relative",
+          position: 'relative',
           zIndex: 1,
-          overflowX: "auto",
+          overflowX: 'auto',
         }}
       >
         {versionList.map((item, index) => {
@@ -492,44 +494,42 @@ export const TimelineComponent = (props) => {
                 setSelectedVersion(item);
               }}
               style={{
-                cursor: "pointer",
-                textAlign: "center",
+                cursor: 'pointer',
+                textAlign: 'center',
                 padding: 8,
-                backgroundColor: isSelected ? "#f0f0f0" : "transparent",
+                backgroundColor: isSelected ? '#f0f0f0' : 'transparent',
                 borderRadius: 6,
-                boxShadow: isSelected ? "0 0 6px rgba(0,0,0,0.1)" : "none",
-                minWidth: isSingle ? "auto" : "120px",
+                boxShadow: isSelected ? '0 0 6px rgba(0,0,0,0.1)' : 'none',
+                minWidth: isSingle ? 'auto' : '120px',
                 flexShrink: 0,
               }}
             >
-              <div
-                style={{ fontWeight: 600, color: "#0D4C92", marginBottom: 8 }}
-              >
+              <div style={{ fontWeight: 600, color: '#0D4C92', marginBottom: 8 }}>
                 <DateTimeToolTip
                   input={item.amendmentDate}
                   outputFormat={G_DATE_READABLE_FORMAT}
                   isVisibleDate
                   isAgo={false}
                   isTag={false}
-                />{" "}
+                />{' '}
               </div>
 
               <div
                 style={{
                   width: 16,
                   height: 16,
-                  borderRadius: "50%",
-                  border: "4px solid #8B0000",
-                  backgroundColor: "#fff",
-                  margin: "0 auto",
+                  borderRadius: '50%',
+                  border: '4px solid #8B0000',
+                  backgroundColor: '#fff',
+                  margin: '0 auto',
                   zIndex: 2,
-                  position: "relative",
+                  position: 'relative',
                 }}
               />
 
               <div style={{ fontSize: 12, marginTop: 8 }}>
                 Amended by <br />
-                <span style={{ color: "#0D4C92" }}>
+                <span style={{ color: '#0D4C92' }}>
                   Act {item.actNo} of {item.actYear}
                 </span>
               </div>
@@ -586,6 +586,12 @@ export const ActContentRender = (props) => {
     versionList,
     selectedVersion,
     setSelectedVersion,
+    chapters,
+    loading,
+    printableLawContent,
+    selectedChapterIds,
+    setSelectedChapterIds,
+    onPrint,
   } = props;
 
   const [showTimeline, setShowTimeline] = useState(false);
@@ -604,27 +610,27 @@ export const ActContentRender = (props) => {
   return (
     <div
       style={{
-        width: isMobile ? "100%" : drawerWidth + 200,
-        borderRight: "1px solid #ccc",
+        width: isMobile ? '100%' : drawerWidth + 200,
+        borderRight: '1px solid #ccc',
       }}
     >
       <div
         style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          borderBottom: "1px solid #ccc",
-          paddingInline: "20px",
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          borderBottom: '1px solid #ccc',
+          paddingInline: '20px',
         }}
       >
         <Button type="link" onClick={handleTimelineToggle}>
           Timeline {showTimeline ? <CaretUpOutlined /> : <CaretDownOutlined />}
         </Button>
 
-        <Space size={"middle"}>
+        <Space size={'middle'}>
           <FileOutlined
             twoToneColor={primaryColor}
-            style={{ cursor: "pointer" }}
+            style={{ cursor: 'pointer' }}
             onClick={() => {
               setPrintModalOpen(true);
             }}
@@ -652,7 +658,7 @@ export const ActContentRender = (props) => {
         bodyStyle={{ padding: 0 }}
         closable
       >
-        <div style={{ padding: "16px", height: "100%", overflowY: "auto" }}>
+        <div style={{ padding: '16px', height: '100%', overflowY: 'auto' }}>
           <MobileTimelineComponent
             versionList={versionList}
             primaryColor={primaryColor}
@@ -665,11 +671,11 @@ export const ActContentRender = (props) => {
       <div
         style={{
           flex: 1,
-          overflowY: "auto",
-          wordBreak: "break-word",
-          whiteSpace: "pre-wrap",
+          overflowY: 'auto',
+          wordBreak: 'break-word',
+          whiteSpace: 'pre-wrap',
           paddingRight: 8,
-          border: "1px solid #ccc",
+          border: '1px solid #ccc',
         }}
       >
         <InfiniteScrollWrapper
@@ -679,10 +685,7 @@ export const ActContentRender = (props) => {
           functionNext={getActContentList}
           height="88vh"
         >
-          <ContentPreview
-            contentList={contentList}
-            backgroundImage={backgroundImage}
-          />
+          <ContentPreview contentList={contentList} backgroundImage={backgroundImage} />
         </InfiniteScrollWrapper>
       </div>
       <Modal
@@ -694,25 +697,41 @@ export const ActContentRender = (props) => {
         width={drawerWidth}
         centered
       >
-        <LawPrintModal lawMeta={lawMeta} primaryColor={primaryColor} backgroundImage={backgroundImage} />
+        <LawPrintModal
+          loading={loading}
+          lawMeta={lawMeta}
+          primaryColor={primaryColor}
+          chapters={chapters}
+          lawContents={printableLawContent}
+          selectedChapterIds={selectedChapterIds}
+          setSelectedChapterIds={setSelectedChapterIds}
+          backgroundImage={backgroundImage}
+          onPrint={onPrint}
+        />
       </Modal>
     </div>
   );
 };
 
 const LawPrintModal = (props) => {
-  const { lawMeta, primaryColor, backgroundImage } = props;
-  const [loading, setLoading] = useState(true);
-  const [selectedChapterIds, setSelectedChapterIds] = useState([]);
-  const [chapters, setChapters] = useState([]);
-  const [lawContents, setLawContents] = useState([]);
+  const {
+    lawMeta,
+    primaryColor,
+    chapters,
+    lawContents,
+    selectedChapterIds,
+    setSelectedChapterIds,
+    backgroundImage,
+    onPrint,
+    loading,
+  } = props;
   const printRef = useRef();
 
   const onSelectAll = () => {
     setSelectedChapterIds(
       chapters?.map((chapter) => {
         return chapter?._id;
-      })
+      }),
     );
   };
 
@@ -720,103 +739,82 @@ const LawPrintModal = (props) => {
     setSelectedChapterIds([]);
   };
 
-  const onPrint = async () => {
-    if (selectedChapterIds?.length <= 0) {
-      notification?.warning({
-        message: "Please select any of the Chapters to print",
-      });
-      return;
-    }
-    let tempSelectedChapterIds = selectedChapterIds?.join(",");
+  const printLawContent = async () => {
+    onPrint(selectedChapterIds);
   };
-
-  useEffect(() => {}, [lawMeta]);
-
-  useEffect(() => {
-    setLawContents([]);
-  }, [selectedChapterIds]);
 
   return (
     <>
-      <div style={{ display: "flex", flexDirection: "column", rowGap: "10px" }}>
-        <Text strong style={{ fontWeight: "bolder", fontSize: "larger" }}>
+      <div style={{ display: 'flex', flexDirection: 'column', rowGap: '10px' }}>
+        <Text strong style={{ fontWeight: 'bolder', fontSize: 'larger' }}>
           {lawMeta?.law?.title}
         </Text>
-        <Space style={{ display: "flex", flexWrap: "wrap" }}>
-          <Text
-            strong
-            style={{ fontWeight: "bolder", color: primaryColor }}
-          >
+        <Space style={{ display: 'flex', flexWrap: 'wrap' }}>
+          <Text strong style={{ fontWeight: 'bolder', color: primaryColor }}>
             Status :
           </Text>
           <Text>
             {lawMeta?.lawVersion?.isLatestVersion ? (
               <>
-                Current version as at{" "}
+                Current version as at{' '}
                 {unixToReadableFormat(
                   momentToUnix(lawMeta?.lawVersion?.amendmentDate),
                   false,
-                  G_DATE_READABLE_FORMAT
-                )}{" "}
+                  G_DATE_READABLE_FORMAT,
+                )}{' '}
               </>
             ) : (
               <>
-                Not current version (effective from{" "}
+                Not current version (effective from{' '}
                 {unixToReadableFormat(
                   momentToUnix(lawMeta?.lawVersion?.amendmentDate),
                   false,
-                  G_DATE_READABLE_FORMAT
-                )}{" "}
-                to{" "}
+                  G_DATE_READABLE_FORMAT,
+                )}{' '}
+                to{' '}
                 {unixToReadableFormat(
                   momentToUnix(lawMeta?.lawVersion?.lastEffectiveDate),
                   false,
-                  G_DATE_READABLE_FORMAT
+                  G_DATE_READABLE_FORMAT,
                 )}
-                ){" "}
+                ){' '}
               </>
             )}
           </Text>
         </Space>
         <Divider
           style={{
-            height: "3px",
+            height: '3px',
             color: primaryColor,
-            margin: "5px",
-            marginInline: "0px",
+            margin: '5px',
+            marginInline: '0px',
             backgroundColor: primaryColor,
           }}
         />
       </div>
       <Text>
-        Select the provisions you wish to print using the checkboxes and then
-        click the relevant "Print"{" "}
+        Select the provisions you wish to print using the checkboxes and then click the relevant
+        "Print"{' '}
       </Text>
       <div
         style={{
-          padding: "5px",
-          paddingInline: "0px",
-          display: "flex",
-          columnGap: "10px",
+          padding: '5px',
+          paddingInline: '0px',
+          display: 'flex',
+          columnGap: '10px',
         }}
       >
-        <Button
-          disabled={loading || chapters?.length == 0}
-          onClick={onSelectAll}
-        >
+        <Button disabled={loading || chapters?.length == 0} onClick={onSelectAll}>
           Select All
         </Button>
-        <Button
-          disabled={loading || chapters?.length == 0}
-          onClick={onClearAll}
-        >
+        <Button disabled={loading || chapters?.length == 0} onClick={onClearAll}>
           Clear All
         </Button>
         <Button
           disabled={loading || chapters?.length == 0}
           type="primary"
           onClick={() => {
-            onPrint();
+            printLawContent();
           }}
         >
           Print
@@ -824,29 +822,27 @@ const LawPrintModal = (props) => {
       </div>
       <div
         style={{
-          height: "40vh",
-          width: "100%",
-          overflow: "scroll",
-          scrollbarWidth: "none",
+          height: '40vh',
+          width: '100%',
+          overflow: 'scroll',
+          scrollbarWidth: 'none',
         }}
       >
         {loading ? (
-          <div
-            style={{ height: "100%", display: "grid", placeItems: "center" }}
-          >
-            <LoadingOutlined spin style={{ fontSize: "xx-large" }} />
+          <div style={{ height: '100%', display: 'grid', placeItems: 'center' }}>
+            <LoadingOutlined spin style={{ fontSize: 'xx-large' }} />
           </div>
         ) : (
-          <div style={{ height: "100%" }}>
+          <div style={{ height: '100%' }}>
             {chapters?.length == 0 ? (
               <div
                 style={{
-                  height: "100%",
-                  display: "grid",
-                  placeItems: "center",
+                  height: '100%',
+                  display: 'grid',
+                  placeItems: 'center',
                 }}
               >
-                <Empty description={"No Chapters Where Found in the Law"} />
+                <Empty description={'No Chapters Where Found in the Law'} />
               </div>
             ) : (
               <>
@@ -859,14 +855,14 @@ const LawPrintModal = (props) => {
             )}
           </div>
         )}
-        <div style={{ display: "none" }}>
+        <div style={{ display: 'none' }}>
           <div ref={printRef}>
-            <ContentPreview contentList={lawContents} backgroundImage={backgroundImage}/>
+            <ContentPreview contentList={lawContents} backgroundImage={backgroundImage} />
           </div>
         </div>
         <ReactToPrint
           trigger={() => (
-            <button id="trigger-print" style={{ display: "none" }}>
+            <button id="trigger-print" style={{ display: 'none' }}>
               Hidden Print Trigger
             </button>
           )}
@@ -882,10 +878,10 @@ export const ChapterItemsRenderComponent = (props) => {
   return (
     <div
       style={{
-        display: "flex",
-        flexDirection: "column",
-        rowGap: "10px",
-        padding: "5px",
+        display: 'flex',
+        flexDirection: 'column',
+        rowGap: '10px',
+        padding: '5px',
       }}
     >
       {chapters?.map((chapter) => {
@@ -897,9 +893,7 @@ export const ChapterItemsRenderComponent = (props) => {
               e.stopPropagation(); // optional, prevents bubbling if needed
               const id = chapter?._id;
               if (selectedChapterIds?.includes(id)) {
-                setSelectedChapterIds((prev) =>
-                  prev.filter((cid) => cid !== id)
-                );
+                setSelectedChapterIds((prev) => prev.filter((cid) => cid !== id));
               } else {
                 setSelectedChapterIds((prev) => [...(prev || []), id]);
               }
@@ -927,20 +921,20 @@ export const MobileTimelineComponent = (props) => {
               style={{
                 width: 16,
                 height: 16,
-                borderRadius: "50%",
-                backgroundColor: "#fff",
-                border: "3px solid #8B0000",
+                borderRadius: '50%',
+                backgroundColor: '#fff',
+                border: '3px solid #8B0000',
               }}
             />
           ),
           label: (
             <span
-              style={{ fontSize: 12, fontWeight: "bold", cursor: "pointer" }}
+              style={{ fontSize: 12, fontWeight: 'bold', cursor: 'pointer' }}
               onClick={() => {
                 setSelectedVersion(item);
               }}
             >
-              <FilePdfOutlined style={{ color: "#8B0000", marginRight: 4 }} />
+              <FilePdfOutlined style={{ color: '#8B0000', marginRight: 4 }} />
               <DateTimeToolTip
                 input={item.amendmentDate}
                 outputFormat={G_DATE_READABLE_FORMAT}
@@ -955,9 +949,8 @@ export const MobileTimelineComponent = (props) => {
               onClick={() => {}}
               style={{
                 fontSize: 12,
-                cursor: "pointer",
-                backgroundColor:
-                  selectedVersion === item.version ? "#f0f0f0" : "transparent",
+                cursor: 'pointer',
+                backgroundColor: selectedVersion === item.version ? '#f0f0f0' : 'transparent',
                 padding: 8,
                 borderRadius: 4,
               }}
@@ -965,14 +958,12 @@ export const MobileTimelineComponent = (props) => {
               {item?.actNo && item?.actYear ? (
                 <>
                   Amended by <br />
-                  <span style={{ color: "#0D4C92", fontWeight: "bold" }}>
+                  <span style={{ color: '#0D4C92', fontWeight: 'bold' }}>
                     Act {item.actNo} of {item.actYear}
                   </span>
                 </>
               ) : (
-                <span style={{ fontStyle: "italic", color: "#999" }}>
-                  2020 RevEd
-                </span>
+                <span style={{ fontStyle: 'italic', color: '#999' }}>2020 RevEd</span>
               )}
             </div>
           ),
