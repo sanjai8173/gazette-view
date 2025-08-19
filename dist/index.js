@@ -260,7 +260,7 @@ const LawPrintModal = (props) => {
                     paddingInline: '0px',
                     display: 'flex',
                     columnGap: '10px',
-                }, children: [_jsx(Button, { disabled: loading || (chapters === null || chapters === void 0 ? void 0 : chapters.length) == 0, onClick: onSelectAll, children: "Select All" }), _jsx(Button, { disabled: loading || (chapters === null || chapters === void 0 ? void 0 : chapters.length) == 0, onClick: onClearAll, children: "Clear All" }), _jsx(Button, { disabled: loading || (chapters === null || chapters === void 0 ? void 0 : chapters.length) == 0, type: "primary", onClick: () => {
+                }, children: [_jsx(Button, { disabled: loading || (chapters === null || chapters === void 0 ? void 0 : chapters.length) == 0, onClick: onSelectAll, children: "Select All" }), _jsx(Button, { disabled: loading || (chapters === null || chapters === void 0 ? void 0 : chapters.length) == 0, onClick: onClearAll, children: "Clear All" }), _jsx(Button, { disabled: loading || (chapters === null || chapters === void 0 ? void 0 : chapters.length) == 0, type: "primary", style: { backgroundColor: primaryColor }, onClick: () => {
                             printLawContent();
                         }, children: "Print" })] }), _jsxs("div", { style: {
                     height: '40vh',
