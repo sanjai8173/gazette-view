@@ -79,6 +79,7 @@ const GazettePreview = (props) => {
     contentList,
     totalContentItems,
     versionList,
+    siderWidth,
     isVersionLoading,
     setSelectedMenuIds,
     selectedMenuIds,
@@ -129,6 +130,7 @@ const GazettePreview = (props) => {
               getMenuItems={onMenuScroll}
               getSelectedMenuIds={getSelectedMenuIds}
               setCollapsed={setCollapsed}
+              width={siderWidth}
               setSelectedMenuIds={setSelectedMenuIds}
               selectedMenuIds={selectedMenuIds}
               totalMenuItems={totalMenuItems}
@@ -148,6 +150,7 @@ const GazettePreview = (props) => {
               getSelectedMenuIds={getSelectedMenuIds}
               setCollapsed={setCollapsed}
               totalMenuItems={totalMenuItems}
+              width={siderWidth}
               menuItems={menuItems}
             />
           )}
@@ -230,9 +233,9 @@ const SideMenu = (props) => {
     selectedMenuIds,
     setSelectedMenuIds,
     totalMenuItems,
+    width
   } = props;
   const { currentUser, vendor, vid } = initialState;
-  const isMobile = useIsMobile();
   const navigate = useNavigate();
 
   const onResetSelectedMenuIds = () => {
@@ -249,7 +252,7 @@ const SideMenu = (props) => {
     <>
       <div
         style={{
-          width: isMobile ? '25%' : '100%',
+          width,
           background: '#fff',
           borderRight: '1px solid #ccc',
           display: 'flex',
