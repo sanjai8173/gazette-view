@@ -10,7 +10,7 @@ import InfiniteScrollWrapper from './wrapper';
 const { Title, Text } = Typography;
 const { Option } = Select;
 const GazettePreview = (props) => {
-    const { initialState, onMenuScroll, lawMeta, menuItems, totalMenuItems, contentList, totalContentItems, versionList, isVersionLoading, setSelectedMenuIds, selectedMenuIds, selectedVersion, onContentScroll, getSelectedMenuIds, setSelectedVersion, } = props;
+    const { initialState, onMenuScroll, lawMeta, menuItems, totalMenuItems, contentList, totalContentItems, versionList, siderWidth, isVersionLoading, setSelectedMenuIds, selectedMenuIds, selectedVersion, onContentScroll, getSelectedMenuIds, setSelectedVersion, } = props;
     const isMobile = useIsMobile();
     const [collapsed, setCollapsed] = useState(false);
     return (_jsxs("div", { style: { display: 'flex', justifyContent: 'center' }, children: [(isMobile || (!isMobile && collapsed)) && (_jsx("div", { onClick: () => setCollapsed(false), style: {
@@ -26,7 +26,7 @@ const GazettePreview = (props) => {
                     transform: 'rotate(-90deg)',
                     transformOrigin: 'left top',
                     zIndex: 10,
-                }, children: "Contents >" })), isMobile ? (_jsx(_Fragment, { children: _jsx(Drawer, { title: false, onClose: () => setCollapsed(true), open: !collapsed, closable: false, styles: { body: { padding: '0px' } }, width: drawerWidth, children: _jsx(SideMenu, { initialState: initialState, lawMeta: lawMeta, getMenuItems: onMenuScroll, getSelectedMenuIds: getSelectedMenuIds, setCollapsed: setCollapsed, setSelectedMenuIds: setSelectedMenuIds, selectedMenuIds: selectedMenuIds, totalMenuItems: totalMenuItems, menuItems: menuItems }) }) })) : (_jsx(_Fragment, { children: !collapsed && (_jsx(SideMenu, { initialState: initialState, lawMeta: lawMeta, getMenuItems: onMenuScroll, setSelectedMenuIds: setSelectedMenuIds, selectedMenuIds: selectedMenuIds, getSelectedMenuIds: getSelectedMenuIds, setCollapsed: setCollapsed, totalMenuItems: totalMenuItems, menuItems: menuItems })) })), _jsx(ActContentRender, { initialState: initialState, contentList: contentList, totalContentItems: totalContentItems, getActContentList: onContentScroll, lawMeta: lawMeta, isVersionLoading: isVersionLoading, versionList: versionList, selectedVersion: selectedVersion, setSelectedVersion: setSelectedVersion })] }));
+                }, children: "Contents >" })), isMobile ? (_jsx(_Fragment, { children: _jsx(Drawer, { title: false, onClose: () => setCollapsed(true), open: !collapsed, closable: false, styles: { body: { padding: '0px' } }, width: drawerWidth, children: _jsx(SideMenu, { initialState: initialState, lawMeta: lawMeta, getMenuItems: onMenuScroll, getSelectedMenuIds: getSelectedMenuIds, setCollapsed: setCollapsed, width: siderWidth, setSelectedMenuIds: setSelectedMenuIds, selectedMenuIds: selectedMenuIds, totalMenuItems: totalMenuItems, menuItems: menuItems }) }) })) : (_jsx(_Fragment, { children: !collapsed && (_jsx(SideMenu, { initialState: initialState, lawMeta: lawMeta, getMenuItems: onMenuScroll, setSelectedMenuIds: setSelectedMenuIds, selectedMenuIds: selectedMenuIds, getSelectedMenuIds: getSelectedMenuIds, setCollapsed: setCollapsed, totalMenuItems: totalMenuItems, width: siderWidth, menuItems: menuItems })) })), _jsx(ActContentRender, { initialState: initialState, contentList: contentList, totalContentItems: totalContentItems, getActContentList: onContentScroll, lawMeta: lawMeta, isVersionLoading: isVersionLoading, versionList: versionList, selectedVersion: selectedVersion, setSelectedVersion: setSelectedVersion })] }));
 };
 export default GazettePreview;
 const ActLevelPreviewComponentMap = {
@@ -72,9 +72,8 @@ export const ContentPreview = ({ contentList = [] }) => {
 };
 const SideMenu = (props) => {
     var _a, _b, _c, _d, _e;
-    const { initialState, lawMeta, getMenuItems, setCollapsed, getSelectedMenuIds, menuItems, selectedMenuIds, setSelectedMenuIds, totalMenuItems, } = props;
+    const { initialState, lawMeta, getMenuItems, setCollapsed, getSelectedMenuIds, menuItems, selectedMenuIds, setSelectedMenuIds, totalMenuItems, width } = props;
     const { currentUser, vendor, vid } = initialState;
-    const isMobile = useIsMobile();
     const navigate = useNavigate();
     const onResetSelectedMenuIds = () => {
         navigate(`${window.location.pathname}?secIds=`);
@@ -86,7 +85,7 @@ const SideMenu = (props) => {
         getSelectedMenuIds([]);
     };
     return (_jsx(_Fragment, { children: _jsxs("div", { style: {
-                width: isMobile ? '25%' : '100%',
+                width,
                 background: '#fff',
                 borderRight: '1px solid #ccc',
                 display: 'flex',

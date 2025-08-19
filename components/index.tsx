@@ -79,6 +79,7 @@ const GazettePreview = (props) => {
     contentList,
     totalContentItems,
     versionList,
+    backgroundImage,
     siderWidth,
     isVersionLoading,
     setSelectedMenuIds,
@@ -162,6 +163,7 @@ const GazettePreview = (props) => {
         totalContentItems={totalContentItems}
         getActContentList={onContentScroll}
         lawMeta={lawMeta}
+        backgroundImage={backgroundImage}
         isVersionLoading={isVersionLoading}
         versionList={versionList}
         selectedVersion={selectedVersion}
@@ -561,6 +563,7 @@ export const ActContentRender = (props) => {
     totalContentItems,
     getActContentList,
     lawMeta,
+    backgroundImage,
     isVersionLoading,
     versionList,
     selectedVersion,
@@ -649,6 +652,9 @@ export const ActContentRender = (props) => {
           wordBreak: 'break-word',
           whiteSpace: 'pre-wrap',
           paddingRight: 8,
+          background:`url(${backgroundImage})`,
+          backgroundSize:'cover',
+          backgroundPosition:'center',
           border: '1px solid #ccc',
         }}
       >
