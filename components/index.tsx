@@ -232,16 +232,8 @@ const SideMenu = (props) => {
     totalMenuItems,
   } = props;
   const { currentUser, vendor, vid } = initialState;
-  const [isDrawerMode, setIsDrawerMode] = useState(false);
+  const isMobile = useIsMobile();
   const navigate = useNavigate();
-
-  useEffect(() => {
-    const handleResize = () => {
-      setIsDrawerMode(window.innerWidth < 1800);
-    };
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
 
   const onResetSelectedMenuIds = () => {
     navigate(`${window.location.pathname}?secIds=`);
@@ -257,7 +249,7 @@ const SideMenu = (props) => {
     <>
       <div
         style={{
-          width: isDrawerMode ? '25%' : '50%',
+          width: isMobile ? '25%' : '100%',
           background: '#fff',
           borderRight: '1px solid #ccc',
           display: 'flex',
