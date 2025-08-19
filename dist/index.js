@@ -10,7 +10,7 @@ import InfiniteScrollWrapper from './wrapper';
 const { Title, Text } = Typography;
 const { Option } = Select;
 const GazettePreview = (props) => {
-    const { initialState, onMenuScroll, lawMeta, menuItems, totalMenuItems, contentList, totalContentItems, versionList, siderWidth, isVersionLoading, setSelectedMenuIds, selectedMenuIds, selectedVersion, onContentScroll, getSelectedMenuIds, setSelectedVersion, } = props;
+    const { initialState, onMenuScroll, lawMeta, menuItems, totalMenuItems, contentList, totalContentItems, versionList, backgroundImage, siderWidth, isVersionLoading, setSelectedMenuIds, selectedMenuIds, selectedVersion, onContentScroll, getSelectedMenuIds, setSelectedVersion, } = props;
     const isMobile = useIsMobile();
     const [collapsed, setCollapsed] = useState(false);
     return (_jsxs("div", { style: { display: 'flex', justifyContent: 'center' }, children: [(isMobile || (!isMobile && collapsed)) && (_jsx("div", { onClick: () => setCollapsed(false), style: {
@@ -26,7 +26,7 @@ const GazettePreview = (props) => {
                     transform: 'rotate(-90deg)',
                     transformOrigin: 'left top',
                     zIndex: 10,
-                }, children: "Contents >" })), isMobile ? (_jsx(_Fragment, { children: _jsx(Drawer, { title: false, onClose: () => setCollapsed(true), open: !collapsed, closable: false, styles: { body: { padding: '0px' } }, width: drawerWidth, children: _jsx(SideMenu, { initialState: initialState, lawMeta: lawMeta, getMenuItems: onMenuScroll, getSelectedMenuIds: getSelectedMenuIds, setCollapsed: setCollapsed, width: siderWidth, setSelectedMenuIds: setSelectedMenuIds, selectedMenuIds: selectedMenuIds, totalMenuItems: totalMenuItems, menuItems: menuItems }) }) })) : (_jsx(_Fragment, { children: !collapsed && (_jsx(SideMenu, { initialState: initialState, lawMeta: lawMeta, getMenuItems: onMenuScroll, setSelectedMenuIds: setSelectedMenuIds, selectedMenuIds: selectedMenuIds, getSelectedMenuIds: getSelectedMenuIds, setCollapsed: setCollapsed, totalMenuItems: totalMenuItems, width: siderWidth, menuItems: menuItems })) })), _jsx(ActContentRender, { initialState: initialState, contentList: contentList, totalContentItems: totalContentItems, getActContentList: onContentScroll, lawMeta: lawMeta, isVersionLoading: isVersionLoading, versionList: versionList, selectedVersion: selectedVersion, setSelectedVersion: setSelectedVersion })] }));
+                }, children: "Contents >" })), isMobile ? (_jsx(_Fragment, { children: _jsx(Drawer, { title: false, onClose: () => setCollapsed(true), open: !collapsed, closable: false, styles: { body: { padding: '0px' } }, width: drawerWidth, children: _jsx(SideMenu, { initialState: initialState, lawMeta: lawMeta, getMenuItems: onMenuScroll, getSelectedMenuIds: getSelectedMenuIds, setCollapsed: setCollapsed, width: siderWidth, setSelectedMenuIds: setSelectedMenuIds, selectedMenuIds: selectedMenuIds, totalMenuItems: totalMenuItems, menuItems: menuItems }) }) })) : (_jsx(_Fragment, { children: !collapsed && (_jsx(SideMenu, { initialState: initialState, lawMeta: lawMeta, getMenuItems: onMenuScroll, setSelectedMenuIds: setSelectedMenuIds, selectedMenuIds: selectedMenuIds, getSelectedMenuIds: getSelectedMenuIds, setCollapsed: setCollapsed, totalMenuItems: totalMenuItems, width: siderWidth, menuItems: menuItems })) })), _jsx(ActContentRender, { initialState: initialState, contentList: contentList, totalContentItems: totalContentItems, getActContentList: onContentScroll, lawMeta: lawMeta, backgroundImage: backgroundImage, isVersionLoading: isVersionLoading, versionList: versionList, selectedVersion: selectedVersion, setSelectedVersion: setSelectedVersion })] }));
 };
 export default GazettePreview;
 const ActLevelPreviewComponentMap = {
@@ -196,7 +196,7 @@ export const TimelineComponent = (props) => {
                 }) })] }));
 };
 export const ActContentRender = (props) => {
-    const { initialState, contentList, totalContentItems, getActContentList, lawMeta, isVersionLoading, versionList, selectedVersion, setSelectedVersion, } = props;
+    const { initialState, contentList, totalContentItems, getActContentList, lawMeta, backgroundImage, isVersionLoading, versionList, selectedVersion, setSelectedVersion, } = props;
     const { vendor, vid } = initialState;
     const [showTimeline, setShowTimeline] = useState(false);
     const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
@@ -227,6 +227,9 @@ export const ActContentRender = (props) => {
                     wordBreak: 'break-word',
                     whiteSpace: 'pre-wrap',
                     paddingRight: 8,
+                    background: `url(${backgroundImage})`,
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center',
                     border: '1px solid #ccc',
                 }, children: _jsx(InfiniteScrollWrapper, { visibleLength: contentList === null || contentList === void 0 ? void 0 : contentList.length, totalLength: totalContentItems, items: contentList, functionNext: getActContentList, height: "88vh", children: _jsx(ContentPreview, { contentList: contentList }) }) }), _jsx(Modal, { open: printModalOpen, onCancel: () => {
                     setPrintModalOpen(false);
