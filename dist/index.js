@@ -10,7 +10,7 @@ import InfiniteScrollWrapper from "./wrapper";
 const { Title, Text } = Typography;
 const { Option } = Select;
 const GazettePreview = (props) => {
-    const { initialState, onMenuScroll, lawMeta, menuItems, totalMenuItems, contentList, totalContentItems, versionList, backgroundImage, siderWidth, isVersionLoading, setSelectedMenuIds, selectedMenuIds, selectedVersion, onContentScroll, getSelectedMenuIds, setSelectedVersion, } = props;
+    const { primaryColor, onMenuScroll, lawMeta, menuItems, totalMenuItems, contentList, totalContentItems, versionList, backgroundImage, siderWidth, isVersionLoading, setSelectedMenuIds, selectedMenuIds, selectedVersion, onContentScroll, getSelectedMenuIds, setSelectedVersion, } = props;
     const isMobile = useIsMobile();
     const [collapsed, setCollapsed] = useState(false);
     return (_jsxs("div", { style: { display: "flex", justifyContent: "center" }, children: [(isMobile || (!isMobile && collapsed)) && (_jsx("div", { onClick: () => setCollapsed(false), style: {
@@ -26,7 +26,7 @@ const GazettePreview = (props) => {
                     transform: "rotate(-90deg)",
                     transformOrigin: "left top",
                     zIndex: 10,
-                }, children: "Contents >" })), isMobile ? (_jsx(_Fragment, { children: _jsx(Drawer, { title: false, onClose: () => setCollapsed(true), open: !collapsed, closable: false, styles: { body: { padding: "0px" } }, width: drawerWidth, children: _jsx(SideMenu, { initialState: initialState, lawMeta: lawMeta, getMenuItems: onMenuScroll, getSelectedMenuIds: getSelectedMenuIds, setCollapsed: setCollapsed, width: siderWidth, setSelectedMenuIds: setSelectedMenuIds, selectedMenuIds: selectedMenuIds, totalMenuItems: totalMenuItems, menuItems: menuItems }) }) })) : (_jsx(_Fragment, { children: !collapsed && (_jsx(SideMenu, { initialState: initialState, lawMeta: lawMeta, getMenuItems: onMenuScroll, setSelectedMenuIds: setSelectedMenuIds, selectedMenuIds: selectedMenuIds, getSelectedMenuIds: getSelectedMenuIds, setCollapsed: setCollapsed, totalMenuItems: totalMenuItems, width: siderWidth, menuItems: menuItems })) })), _jsx(ActContentRender, { initialState: initialState, contentList: contentList, totalContentItems: totalContentItems, getActContentList: onContentScroll, lawMeta: lawMeta, backgroundImage: backgroundImage, isVersionLoading: isVersionLoading, versionList: versionList, selectedVersion: selectedVersion, setSelectedVersion: setSelectedVersion })] }));
+                }, children: "Contents >" })), isMobile ? (_jsx(_Fragment, { children: _jsx(Drawer, { title: false, onClose: () => setCollapsed(true), open: !collapsed, closable: false, styles: { body: { padding: "0px" } }, width: drawerWidth, children: _jsx(SideMenu, { primaryColor: primaryColor, lawMeta: lawMeta, getMenuItems: onMenuScroll, getSelectedMenuIds: getSelectedMenuIds, setCollapsed: setCollapsed, width: siderWidth, setSelectedMenuIds: setSelectedMenuIds, selectedMenuIds: selectedMenuIds, totalMenuItems: totalMenuItems, menuItems: menuItems }) }) })) : (_jsx(_Fragment, { children: !collapsed && (_jsx(SideMenu, { primaryColor: primaryColor, lawMeta: lawMeta, getMenuItems: onMenuScroll, setSelectedMenuIds: setSelectedMenuIds, selectedMenuIds: selectedMenuIds, getSelectedMenuIds: getSelectedMenuIds, setCollapsed: setCollapsed, totalMenuItems: totalMenuItems, width: siderWidth, menuItems: menuItems })) })), _jsx(ActContentRender, { primaryColor: primaryColor, contentList: contentList, totalContentItems: totalContentItems, getActContentList: onContentScroll, lawMeta: lawMeta, backgroundImage: backgroundImage, isVersionLoading: isVersionLoading, versionList: versionList, selectedVersion: selectedVersion, setSelectedVersion: setSelectedVersion })] }));
 };
 export default GazettePreview;
 const ActLevelPreviewComponentMap = {
@@ -76,8 +76,7 @@ export const ContentPreview = ({ contentList = [], backgroundImage }) => {
 };
 const SideMenu = (props) => {
     var _a, _b, _c, _d, _e;
-    const { initialState, lawMeta, getMenuItems, setCollapsed, getSelectedMenuIds, menuItems, selectedMenuIds, setSelectedMenuIds, totalMenuItems, width, } = props;
-    const { currentUser, vendor, vid } = initialState;
+    const { primaryColor, lawMeta, getMenuItems, setCollapsed, getSelectedMenuIds, menuItems, selectedMenuIds, setSelectedMenuIds, totalMenuItems, width, } = props;
     const navigate = useNavigate();
     const onResetSelectedMenuIds = () => {
         navigate(`${window.location.pathname}?secIds=`);
@@ -108,12 +107,12 @@ const SideMenu = (props) => {
                                         right: "10px",
                                     }, onClick: () => {
                                         setCollapsed(true);
-                                    } })] }), _jsx("div", { style: { padding: "5px", paddingInline: "10px" }, children: _jsxs(Space, { style: { display: "flex", flexWrap: "wrap" }, children: [_jsx(Text, { strong: true, style: { fontWeight: "bolder", color: vendor === null || vendor === void 0 ? void 0 : vendor.primaryColor }, children: "Status :" }), _jsx(Text, { children: ((_b = lawMeta === null || lawMeta === void 0 ? void 0 : lawMeta.lawVersion) === null || _b === void 0 ? void 0 : _b.isLatestVersion) ? (_jsxs(_Fragment, { children: ["Current version as at", " ", unixToReadableFormat(momentToUnix((_c = lawMeta === null || lawMeta === void 0 ? void 0 : lawMeta.lawVersion) === null || _c === void 0 ? void 0 : _c.amendmentDate), false, G_DATE_READABLE_FORMAT), " "] })) : (_jsxs(_Fragment, { children: ["Not current version (effective from", " ", unixToReadableFormat(momentToUnix((_d = lawMeta === null || lawMeta === void 0 ? void 0 : lawMeta.lawVersion) === null || _d === void 0 ? void 0 : _d.amendmentDate), false, G_DATE_READABLE_FORMAT), " ", "to", " ", unixToReadableFormat(momentToUnix((_e = lawMeta === null || lawMeta === void 0 ? void 0 : lawMeta.lawVersion) === null || _e === void 0 ? void 0 : _e.lastEffectiveDate), false, G_DATE_READABLE_FORMAT), ")", " "] })) })] }) }), _jsx(Divider, { style: {
+                                    } })] }), _jsx("div", { style: { padding: "5px", paddingInline: "10px" }, children: _jsxs(Space, { style: { display: "flex", flexWrap: "wrap" }, children: [_jsx(Text, { strong: true, style: { fontWeight: "bolder", color: primaryColor }, children: "Status :" }), _jsx(Text, { children: ((_b = lawMeta === null || lawMeta === void 0 ? void 0 : lawMeta.lawVersion) === null || _b === void 0 ? void 0 : _b.isLatestVersion) ? (_jsxs(_Fragment, { children: ["Current version as at", " ", unixToReadableFormat(momentToUnix((_c = lawMeta === null || lawMeta === void 0 ? void 0 : lawMeta.lawVersion) === null || _c === void 0 ? void 0 : _c.amendmentDate), false, G_DATE_READABLE_FORMAT), " "] })) : (_jsxs(_Fragment, { children: ["Not current version (effective from", " ", unixToReadableFormat(momentToUnix((_d = lawMeta === null || lawMeta === void 0 ? void 0 : lawMeta.lawVersion) === null || _d === void 0 ? void 0 : _d.amendmentDate), false, G_DATE_READABLE_FORMAT), " ", "to", " ", unixToReadableFormat(momentToUnix((_e = lawMeta === null || lawMeta === void 0 ? void 0 : lawMeta.lawVersion) === null || _e === void 0 ? void 0 : _e.lastEffectiveDate), false, G_DATE_READABLE_FORMAT), ")", " "] })) })] }) }), _jsx(Divider, { style: {
                                 height: "3px",
-                                color: vendor === null || vendor === void 0 ? void 0 : vendor.primaryColor,
+                                color: primaryColor,
                                 margin: "5px",
                                 marginInline: "0px",
-                                backgroundColor: vendor === null || vendor === void 0 ? void 0 : vendor.primaryColor,
+                                backgroundColor: primaryColor,
                             } }), _jsx("div", { style: { padding: "5px", paddingInline: "10px" }, children: _jsx(Text, { style: { fontWeight: "bolder" }, children: "Table of Contents" }) })] }), _jsx(InfiniteScrollWrapper, { visibleLength: menuItems === null || menuItems === void 0 ? void 0 : menuItems.length, items: menuItems, totalLength: totalMenuItems, functionNext: getMenuItems, height: "75vh", children: _jsx(List, { dataSource: menuItems, renderItem: (menu) => (_jsx(MenuItemRender, { menu: menu, setSelectedMenuIds: setSelectedMenuIds, selectedMenuIds: selectedMenuIds })) }) }), _jsxs("div", { style: {
                         backgroundColor: "#eee",
                         padding: "10px",
@@ -159,7 +158,7 @@ const MenuItemRender = (props) => {
                         : `${menu.sec}. ${menu.title}` })] }, menu._id));
 };
 export const TimelineComponent = (props) => {
-    const { versionList, vendor, selectedVersion, setSelectedVersion } = props;
+    const { versionList, primaryColor, selectedVersion, setSelectedVersion } = props;
     const isSingle = versionList.length === 1;
     return (_jsxs("div", { style: { padding: 24, position: "relative" }, children: [!isSingle && (_jsx("div", { style: {
                     position: "absolute",
@@ -167,7 +166,7 @@ export const TimelineComponent = (props) => {
                     left: 0,
                     right: 0,
                     height: 4,
-                    backgroundColor: (vendor === null || vendor === void 0 ? void 0 : vendor.primaryColor) || "#ccc",
+                    backgroundColor: primaryColor || "#ccc",
                     zIndex: 0,
                 } })), _jsx("div", { style: {
                     display: "flex",
@@ -203,8 +202,7 @@ export const TimelineComponent = (props) => {
                 }) })] }));
 };
 export const ActContentRender = (props) => {
-    const { initialState, contentList, totalContentItems, getActContentList, lawMeta, backgroundImage, isVersionLoading, versionList, selectedVersion, setSelectedVersion, } = props;
-    const { vendor, vid } = initialState;
+    const { primaryColor, contentList, totalContentItems, getActContentList, lawMeta, backgroundImage, isVersionLoading, versionList, selectedVersion, setSelectedVersion, } = props;
     const [showTimeline, setShowTimeline] = useState(false);
     const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
     const isMobile = useIsMobile();
@@ -226,9 +224,9 @@ export const ActContentRender = (props) => {
                     alignItems: "center",
                     borderBottom: "1px solid #ccc",
                     paddingInline: "20px",
-                }, children: [_jsxs(Button, { type: "link", onClick: handleTimelineToggle, children: ["Timeline ", showTimeline ? _jsx(CaretUpOutlined, {}) : _jsx(CaretDownOutlined, {})] }), _jsxs(Space, { size: "middle", children: [_jsx(FileOutlined, { twoToneColor: vendor === null || vendor === void 0 ? void 0 : vendor.primaryColor, style: { cursor: "pointer" }, onClick: () => {
+                }, children: [_jsxs(Button, { type: "link", onClick: handleTimelineToggle, children: ["Timeline ", showTimeline ? _jsx(CaretUpOutlined, {}) : _jsx(CaretDownOutlined, {})] }), _jsxs(Space, { size: "middle", children: [_jsx(FileOutlined, { twoToneColor: primaryColor, style: { cursor: "pointer" }, onClick: () => {
                                     setPrintModalOpen(true);
-                                } }), _jsx(QuestionCircleFilled, { twoToneColor: vendor === null || vendor === void 0 ? void 0 : vendor.primaryColor })] })] }), !isMobile && showTimeline && (_jsx(TimelineComponent, { versionList: versionList, isVersionLoading: isVersionLoading, vendor: vendor, selectedVersion: selectedVersion, setSelectedVersion: setSelectedVersion })), _jsx(Drawer, { open: mobileDrawerOpen, onClose: () => setMobileDrawerOpen(false), title: "Timeline", placement: "right", width: "100vw", bodyStyle: { padding: 0 }, closable: true, children: _jsx("div", { style: { padding: "16px", height: "100%", overflowY: "auto" }, children: _jsx(MobileTimelineComponent, { versionList: versionList, vendor: vendor, selectedVersion: selectedVersion, setSelectedVersion: setSelectedVersion }) }) }), _jsx("div", { style: {
+                                } }), _jsx(QuestionCircleFilled, { twoToneColor: primaryColor })] })] }), !isMobile && showTimeline && (_jsx(TimelineComponent, { versionList: versionList, isVersionLoading: isVersionLoading, primaryColor: primaryColor, selectedVersion: selectedVersion, setSelectedVersion: setSelectedVersion })), _jsx(Drawer, { open: mobileDrawerOpen, onClose: () => setMobileDrawerOpen(false), title: "Timeline", placement: "right", width: "100vw", bodyStyle: { padding: 0 }, closable: true, children: _jsx("div", { style: { padding: "16px", height: "100%", overflowY: "auto" }, children: _jsx(MobileTimelineComponent, { versionList: versionList, primaryColor: primaryColor, selectedVersion: selectedVersion, setSelectedVersion: setSelectedVersion }) }) }), _jsx("div", { style: {
                     flex: 1,
                     overflowY: "auto",
                     wordBreak: "break-word",
@@ -237,12 +235,11 @@ export const ActContentRender = (props) => {
                     border: "1px solid #ccc",
                 }, children: _jsx(InfiniteScrollWrapper, { visibleLength: contentList === null || contentList === void 0 ? void 0 : contentList.length, totalLength: totalContentItems, items: contentList, functionNext: getActContentList, height: "88vh", children: _jsx(ContentPreview, { contentList: contentList, backgroundImage: backgroundImage }) }) }), _jsx(Modal, { open: printModalOpen, onCancel: () => {
                     setPrintModalOpen(false);
-                }, footer: false, width: drawerWidth, centered: true, children: _jsx(LawPrintModal, { lawMeta: lawMeta, initialState: initialState, backgroundImage: backgroundImage }) })] }));
+                }, footer: false, width: drawerWidth, centered: true, children: _jsx(LawPrintModal, { lawMeta: lawMeta, primaryColor: primaryColor, backgroundImage: backgroundImage }) })] }));
 };
 const LawPrintModal = (props) => {
     var _a, _b, _c, _d, _e;
-    const { lawMeta, initialState, backgroundImage } = props;
-    const { currentUser, vendor, vid } = initialState;
+    const { lawMeta, primaryColor, backgroundImage } = props;
     const [loading, setLoading] = useState(true);
     const [selectedChapterIds, setSelectedChapterIds] = useState([]);
     const [chapters, setChapters] = useState([]);
@@ -269,12 +266,12 @@ const LawPrintModal = (props) => {
     useEffect(() => {
         setLawContents([]);
     }, [selectedChapterIds]);
-    return (_jsxs(_Fragment, { children: [_jsxs("div", { style: { display: "flex", flexDirection: "column", rowGap: "10px" }, children: [_jsx(Text, { strong: true, style: { fontWeight: "bolder", fontSize: "larger" }, children: (_a = lawMeta === null || lawMeta === void 0 ? void 0 : lawMeta.law) === null || _a === void 0 ? void 0 : _a.title }), _jsxs(Space, { style: { display: "flex", flexWrap: "wrap" }, children: [_jsx(Text, { strong: true, style: { fontWeight: "bolder", color: vendor === null || vendor === void 0 ? void 0 : vendor.primaryColor }, children: "Status :" }), _jsx(Text, { children: ((_b = lawMeta === null || lawMeta === void 0 ? void 0 : lawMeta.lawVersion) === null || _b === void 0 ? void 0 : _b.isLatestVersion) ? (_jsxs(_Fragment, { children: ["Current version as at", " ", unixToReadableFormat(momentToUnix((_c = lawMeta === null || lawMeta === void 0 ? void 0 : lawMeta.lawVersion) === null || _c === void 0 ? void 0 : _c.amendmentDate), false, G_DATE_READABLE_FORMAT), " "] })) : (_jsxs(_Fragment, { children: ["Not current version (effective from", " ", unixToReadableFormat(momentToUnix((_d = lawMeta === null || lawMeta === void 0 ? void 0 : lawMeta.lawVersion) === null || _d === void 0 ? void 0 : _d.amendmentDate), false, G_DATE_READABLE_FORMAT), " ", "to", " ", unixToReadableFormat(momentToUnix((_e = lawMeta === null || lawMeta === void 0 ? void 0 : lawMeta.lawVersion) === null || _e === void 0 ? void 0 : _e.lastEffectiveDate), false, G_DATE_READABLE_FORMAT), ")", " "] })) })] }), _jsx(Divider, { style: {
+    return (_jsxs(_Fragment, { children: [_jsxs("div", { style: { display: "flex", flexDirection: "column", rowGap: "10px" }, children: [_jsx(Text, { strong: true, style: { fontWeight: "bolder", fontSize: "larger" }, children: (_a = lawMeta === null || lawMeta === void 0 ? void 0 : lawMeta.law) === null || _a === void 0 ? void 0 : _a.title }), _jsxs(Space, { style: { display: "flex", flexWrap: "wrap" }, children: [_jsx(Text, { strong: true, style: { fontWeight: "bolder", color: primaryColor }, children: "Status :" }), _jsx(Text, { children: ((_b = lawMeta === null || lawMeta === void 0 ? void 0 : lawMeta.lawVersion) === null || _b === void 0 ? void 0 : _b.isLatestVersion) ? (_jsxs(_Fragment, { children: ["Current version as at", " ", unixToReadableFormat(momentToUnix((_c = lawMeta === null || lawMeta === void 0 ? void 0 : lawMeta.lawVersion) === null || _c === void 0 ? void 0 : _c.amendmentDate), false, G_DATE_READABLE_FORMAT), " "] })) : (_jsxs(_Fragment, { children: ["Not current version (effective from", " ", unixToReadableFormat(momentToUnix((_d = lawMeta === null || lawMeta === void 0 ? void 0 : lawMeta.lawVersion) === null || _d === void 0 ? void 0 : _d.amendmentDate), false, G_DATE_READABLE_FORMAT), " ", "to", " ", unixToReadableFormat(momentToUnix((_e = lawMeta === null || lawMeta === void 0 ? void 0 : lawMeta.lawVersion) === null || _e === void 0 ? void 0 : _e.lastEffectiveDate), false, G_DATE_READABLE_FORMAT), ")", " "] })) })] }), _jsx(Divider, { style: {
                             height: "3px",
-                            color: vendor === null || vendor === void 0 ? void 0 : vendor.primaryColor,
+                            color: primaryColor,
                             margin: "5px",
                             marginInline: "0px",
-                            backgroundColor: vendor === null || vendor === void 0 ? void 0 : vendor.primaryColor,
+                            backgroundColor: primaryColor,
                         } })] }), _jsxs(Text, { children: ["Select the provisions you wish to print using the checkboxes and then click the relevant \"Print\"", " "] }), _jsxs("div", { style: {
                     padding: "5px",
                     paddingInline: "0px",
@@ -314,7 +311,7 @@ export const ChapterItemsRenderComponent = (props) => {
         }) }));
 };
 export const MobileTimelineComponent = (props) => {
-    const { versionList, vendor, selectedVersion, setSelectedVersion } = props;
+    const { versionList, primaryColor, selectedVersion, setSelectedVersion } = props;
     return (_jsx("div", { style: { padding: 16 }, children: _jsx(Timeline, { mode: "left", style: { marginLeft: 12 }, items: versionList.map((item) => ({
                 dot: (_jsx("div", { style: {
                         width: 16,

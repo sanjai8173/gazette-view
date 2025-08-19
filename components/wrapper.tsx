@@ -1,9 +1,9 @@
-import { Spin } from 'antd';
-import { useEffect, useRef, useState } from 'react';
+import { Spin } from "antd";
+import { useEffect, useRef, useState } from "react";
 
 const EndMessageComponent = (props) => {
   return (
-    <p style={{ textAlign: 'center' }}>
+    <p style={{ textAlign: "center" }}>
       <b>You have seen it all</b>
     </p>
   );
@@ -15,7 +15,7 @@ const InfiniteScrollWrapper = ({
   items,
   functionNext,
   children,
-  height = 'calc(100vh - 70px)',
+  height = "calc(100vh - 70px)",
 }) => {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const isFetchingRef = useRef(false);
@@ -39,8 +39,8 @@ const InfiniteScrollWrapper = ({
     const container = containerRef.current;
     if (!container) return;
 
-    container.addEventListener('scroll', handleScroll);
-    return () => container.removeEventListener('scroll', handleScroll);
+    container.addEventListener("scroll", handleScroll);
+    return () => container.removeEventListener("scroll", handleScroll);
   }, [visibleLength, hasMore]);
 
   useEffect(() => {
@@ -52,12 +52,18 @@ const InfiniteScrollWrapper = ({
       <div
         ref={containerRef}
         style={{
-          overflowY: 'scroll',
+          overflowY: "scroll",
           height,
         }}
       >
         {children}
-        {hasMore ? <Spin /> : <EndMessageComponent />}
+        {hasMore ? (
+          <div style={{ width: "100%", display: "grid", placeItems: "center" }}>
+            <Spin />
+          </div>
+        ) : (
+          <EndMessageComponent />
+        )}
       </div>
     </>
   );
